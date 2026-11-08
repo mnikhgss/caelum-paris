@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAELUM PARIS — Atelier Céleste Runway Showcase</title>
+  <meta name="description" content="순백의 미니멀리즘 갤러리 속에서 부유하는 실크 스카프, 런웨이 캐시미어 코트, 명품 레더 백, 3D 키네틱 천체 주얼리. 다양한 각도에서 감상하는 버추얼 패션 쇼케이스.">
+
+  <script>
+    window.__errors = [];
+    window.addEventListener('error', function(e) {
+      window.__errors.push({message: e.message, file: e.filename, line: e.lineno});
+      console.error('PAGE_ERROR:', e.message, e.filename, e.lineno);
+    });
+  </script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Three.js (3D WebGL Engine) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Modular Stylesheet System -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body class="selection:bg-amber-100 selection:text-black">
+
+  <!-- Subtle Alabaster Film Grain -->
+  <div class="film-grain"></div>
+
+  <!-- Fullscreen 3D Spatial Canvas (Three.js Orbit & Runway Exhibits) -->
+  <canvas id="gallery-3d-canvas"></canvas>
+
+  <!-- 360-degree Drag Interaction Hint Badge -->
+  <div class="drag-hint-badge">
+    <i data-lucide="orbit" class="w-3.5 h-3.5 text-stone-700"></i>
+    <span>마우스 드래그로 360° 자유 회전 탐색</span>
+  </div>
+
+  <!-- Virtual Scroll Runway (Allows continuous 3D camera flight across 880vh) -->
+  <div id="virtual-scroll-track"></div>
+
+  <!-- ====================================================================
+       Header: Whisper Minimalist Salon Navigation with Authentic Luxury Logo
+       ==================================================================== -->
+  <header class="salon-header px-4 sm:px-8 flex justify-between items-center">
+    <!-- Brand Logo Mark & Monogram -->
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-stone-100 border border-stone-200/80 p-1 flex items-center justify-center shadow-sm">
+        <img src="assets/images/brand-emblem.svg" alt="CAELUM Paris Emblem" class="w-full h-full object-contain">
+      </div>
+      <div class="flex flex-col">
+        <span class="font-serif-couture text-base sm:text-lg tracking-[0.22em] sm:tracking-[0.25em] font-light text-stone-900 leading-tight">
+          CAELUM
+        </span>
+        <span class="text-[7.5px] sm:text-[8px] font-whisper tracking-[0.3em] sm:tracking-[0.35em] text-stone-600">PARIS · ATELIER CÉLESTE</span>
+      </div>
+    </div>
+
+    <!-- Center Coordinates -->
+    <div class="hidden md:flex items-center gap-2 text-[10px] font-mono-meta text-stone-700 tracking-wider">
+      <span>LAT. 48.8534° N</span>
+      <span>·</span>
+      <span>LONG. 2.3488° E</span>
+      <span>·</span>
+      <span class="text-stone-900 font-medium">ATELIER CÉLESTE PARIS</span>
+    </div>
+
+    <!-- Right Controls -->
+    <div class="flex items-center gap-4">
+      <!-- Sound Pill -->
+      <button id="sound-toggle-btn" class="sound-toggle-btn">
+        <span>Sound Muted</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
+      </button>
+
+      <!-- Inquire Action: Replaced mailto with Luxury In-Site Reservation Modal -->
+      <button id="header-reserve-btn" class="hidden sm:inline-flex text-[11px] font-whisper tracking-[0.25em] text-stone-900 hover:text-amber-700 transition-colors uppercase border-b border-stone-300 pb-0.5 cursor-pointer">
+        Réserver un Salon
+      </button>
+    </div>
+  </header>
+
+  <!-- ====================================================================
+       Fixed Floating 3D Showcase Card (Updates dynamically during scroll)
+       ==================================================================== -->
+  <div class="story-overlay-container">
+    <div id="story-card" class="story-card space-y-4">
+      
+      <!-- Stage Number & Runway Angle Switcher -->
+      <div class="flex flex-wrap justify-between items-center gap-2">
+        <div class="flex items-center gap-3">
+          <span id="story-num" class="text-xs font-mono-meta text-stone-600 tracking-widest">
+            01 / 08
+          </span>
+          <span class="text-[9px] font-whisper tracking-[0.3em] text-amber-700">
+            RUNWAY SHOWCASE
+          </span>
+          <span class="text-[8px] font-whisper px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-700 border border-amber-500/20 tracking-wider">
+            TOILE CÉLESTE
+          </span>
+        </div>
+
+        <!-- Runway Multi-Angle Catwalk Switcher (모델 워킹 다각도 관찰) -->
+        <div class="runway-angle-bar">
+          <button class="runway-angle-btn active" data-angle="face" title="정면 앵글">정면</button>
+          <button class="runway-angle-btn" data-angle="walk" title="45도 워킹 실루엣">워킹 45°</button>
+          <button class="runway-angle-btn" data-angle="back" title="후면 드레이프">후면</button>
+          <button class="runway-angle-btn" data-angle="macro" title="초근접 매크로 줌">매크로</button>
+        </div>
+      </div>
+
+      <!-- Title & Subtitle -->
+      <div class="space-y-1">
+        <h2 id="story-title" class="font-serif-couture text-2xl sm:text-3xl font-light text-stone-900 tracking-tight">
+          N° 01 — L'ÉCHARPE MAGIQUE
+        </h2>
+        <p id="story-desc" class="text-xs sm:text-sm font-light text-stone-600 leading-relaxed">
+          공기를 가르는 실크의 유동성. 순백의 갤러리 속에 부유하는 에르메스급 실크 카레.
+        </p>
+      </div>
+
+      <!-- Actions -->
+      <div class="pt-2 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <button id="inspect-current-btn" class="inspect-pill-btn">
+            <span>3D 아티팩트 정밀 탐색</span>
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          </button>
+          <button id="story-pattern-view-btn" class="pattern-edition-pill-btn" title="카일룸 시그니처 4대 모티브 에디션 룩북">
+            <i data-lucide="compass" class="w-3.5 h-3.5 text-amber-300"></i>
+            <span>모노그램 에디션</span>
+          </button>
+          <button id="silk-atelier-btn" class="silk-lab-pill-btn">
+            <i data-lucide="wind" class="w-3.5 h-3.5 text-amber-600"></i>
+            <span>실크 물리 아틀리에</span>
+          </button>
+        </div>
+
+        <!-- Live 3D Colorway Switcher -->
+        <div class="colorway-switcher">
+          <span class="text-[9px] font-mono-meta text-stone-500 mr-1 uppercase">Couleur:</span>
+          <span class="colorway-dot active bg-[#d4af37]" data-color="#ffffff" data-sheen="#f6e6c4" title="Émeraude & Or"></span>
+          <span class="colorway-dot bg-[#1e293b]" data-color="#cbd5e1" data-sheen="#38bdf8" title="Bleu Nuit"></span>
+          <span class="colorway-dot bg-[#f472b6]" data-color="#fed7aa" data-sheen="#f472b6" title="Rose Poudré"></span>
+        </div>
+
+        <span class="text-[10px] font-mono-meta text-stone-600 hidden sm:inline">
+          스크롤을 내려 다음 런웨이로 이동 ↓
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       Right Orbit Timeline (8 Interactive Navigation Nodes)
+       ==================================================================== -->
+  <div class="orbit-timeline">
+    <div class="timeline-line"></div>
+    <div class="timeline-step active" data-id="scarf" title="01. L'Écharpe Magique"></div>
+    <div class="timeline-step" data-id="coat" title="02. Le Manteau Runway"></div>
+    <div class="timeline-step" data-id="bag" title="03. Le Sac Sellerie"></div>
+    <div class="timeline-step" data-id="jewelry" title="04. La Haute Parure"></div>
+    <div class="timeline-step" data-id="eyewear" title="05. L'Optique Solaire"></div>
+    <div class="timeline-step" data-id="flacon" title="06. Le Flacon d'Or"></div>
+    <div class="timeline-step" data-id="shoes" title="07. Le Soulier de Verre"></div>
+    <div class="timeline-step" data-id="trunk" title="08. La Malle d'Or"></div>
+  </div>
+
+  <!-- ====================================================================
+       Royal Finale Climax Overlay (스크롤 마지막 시선 상승 & 9종 마스터피스 파노라마)
+       ==================================================================== -->
+  <div id="royal-finale-container" class="royal-finale-container">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 pb-4 border-b border-stone-200/60">
+      
+      <!-- Brand Royal Crest Aura & Manifesto -->
+      <div class="flex items-center gap-4 text-left">
+        <div class="royal-crest-aura w-12 h-12 rounded-full bg-stone-900 border border-amber-300/40 p-2 flex items-center justify-center shadow-lg">
+          <img src="assets/images/brand-emblem.svg" alt="CAELUM Royal Emblem" class="w-full h-full object-contain filter invert">
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-serif-couture text-xl md:text-2xl font-light text-stone-900 tracking-wide">
+              CAELUM
+            </span>
+            <span class="text-[9px] font-whisper px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-medium">
+              PARIS · FONDÉE EN 1888
+            </span>
+          </div>
+          <p class="text-[11px] font-sans-airy text-stone-600 tracking-wider">
+            L'Art de l'Infini — 1888년 파리 천체 관측소와 오트 쿠튀르 공방의 조화로 빚어낸 9종의 마스터피스 컬렉션
+          </p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-3">
+        <button id="finale-back-to-top" class="px-4 py-2.5 rounded-full border border-stone-300 hover:border-stone-900 text-stone-700 hover:text-stone-900 font-whisper text-[10px] tracking-[0.2em] transition-all bg-white shadow-sm flex items-center gap-2 cursor-pointer">
+          <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i>
+          <span>런웨이 처음으로</span>
+        </button>
+
+        <button id="finale-reserve-btn" class="btn-royal-gold cursor-pointer">
+          <span>프라이빗 살롱 초대 신청</span>
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- 9-Piece Panoramic Exhibit Shelf (Horizontal Strip) -->
+    <div class="max-w-6xl mx-auto pt-4">
+      <div class="flex justify-between items-center mb-2 px-1">
+        <span class="text-[9px] font-whisper tracking-[0.3em] text-stone-700 font-medium">
+          LES 9 CHEFS-D'ŒUVRE — 아티팩트와 18K 시그니처 뱅글을 클릭하면 상세 사양 및 돋보기 검수가 열립니다
+        </span>
+        <span class="text-[9px] font-mono-meta text-stone-600 hidden sm:inline">
+          ← 가로 스크롤하여 전체 컬렉션 탐색 →
+        </span>
+      </div>
+
+      <div class="panorama-strip">
+        <!-- 00 Signature Bangle -->
+        <div class="panorama-card" data-station="bangle">
+          <img src="assets/images/signature-bangle-white.jpg" alt="Le Bracelet d'Or" class="panorama-card-img">
+          <div class="mt-2 text-left">
+            <span class="text-[8px] font-mono-meta text-amber-700 block">N° 00 · SIGNATURE</span>
+            <span class="text-xs font-serif-couture font-normal text-stone-900 block truncate">Le Bracelet d'Or</span>
+          </div>
+        </div>
+
+        <!-- 01 Scarf -->
+        <div class="panorama-card" data-station="scarf">
+          <img src="assets/images/silk-scarf-pattern.jpg" alt="L'Écharpe Magique" class="panorama-card-img">
+          <div class="mt-2 text-left">
+            <span class="text-[8px] font-mono-meta text-amber-700 block">N° 01 · SOIE</span>
+            <span class="text-xs font-serif-couture font-normal text-stone-900 block truncate">L'Écharpe Magique</span>
+          </div>
+        </div>
+
+        <!-- 02 Coat -->
+        <div class="panorama-card" data-station="coat">
+          <img src="assets/images/runway-coat-white.jpg" alt="Le Manteau Runway" class="panorama-card-img">
+          <div class="mt-2 text-left">
+            <span class="text-[8px] font-mono-meta text-amber-700 block">N° 02 · CACHEMIRE</span>
+            <span class="text-xs font-serif-couture font-normal text-stone-900 block truncate">Le Manteau Runway</span>
+          </div>
+        </div>
+
+        <!-- 03 Bag -->
+        <div class="panorama-card" data-station="bag">
+          <img src="assets/images/luxury-handbag-white.jpg" alt="Le Sac Sellerie" class="panorama-card-img">
+          <div class="mt-2 text-left">
+            <span class="text-[8px] font-mono-meta text-amber-700 block">N° 03 · MAROQUINERIE</span>
+            <span class="text-xs font-serif-couture font-normal text-stone-900 block truncate">Le Sac Sellerie</span>
+          </div>
+        </div>
+
+        <!-- 04 Jewelry -->
+        <div class="panorama-card" data-station="jewelry">
+          <img src="assets/images/choker-white.jpg" alt="La Haute Parure" class="panorama-card-img">
+          <div class="mt-2 text-left">
+            <span class="text-[8px] font-mono-meta text-amber-700 block">N° 04 · HAUTE JOAILLERIE</span>
+            <span class="text-xs font-serif-couture font-normal text-stone-900 block truncate">La Haute Parure</span>
+          </div>
+        </div>
+
+        <!-- 05 Eyewear -->
+        <div class="panorama-card" data-station="eyewear">
+          <img src="assets/images/couture-eyewear-white.jpg" alt="L'Optique Solaire" class="panorama-card-img">
+          <div class="mt-2 text-left">
+            <span class="text-[8px] font-mono-meta text-amber-700 block">N° 05 · LUNETTERIE</span>
+            <span class="text-xs font-serif-couture font-normal text-stone-900 block truncate">L'Optique Solaire</span>
+          </div>
+        </div>
+
+        <!-- 06 Flacon -->
+        <div class="panorama-card" data-station="flacon">
+          <img src="assets/images/perfume-flacon-white.jpg" alt="Le Flacon d'Or" class="panorama-card-img">
+          <div class="mt-2 text-left">
+            <span class="text-[8px] font-mono-meta text-amber-700 block">N° 06 · PARFUM</span>
+            <span class="text-xs font-serif-couture font-normal text-stone-900 block truncate">Le Flacon d'Or</span>
+          </div>
+        </div>
+
+        <!-- 07 Shoes -->
+        <div class="panorama-card" data-station="shoes">
+          <img src="assets/images/couture-shoes-white.jpg" alt="Le Soulier de Verre" class="panorama-card-img">
+          <div class="mt-2 text-left">
+            <span class="text-[8px] font-mono-meta text-amber-700 block">N° 07 · CHAUSSURES</span>
+            <span class="text-xs font-serif-couture font-normal text-stone-900 block truncate">Le Soulier de Verre</span>
+          </div>
+        </div>
+
+        <!-- 08 Trunk -->
+        <div class="panorama-card" data-station="trunk">
+          <img src="assets/images/luxury-trunk-white.jpg" alt="La Malle d'Or" class="panorama-card-img">
+          <div class="mt-2 text-left">
+            <span class="text-[8px] font-mono-meta text-amber-700 block">N° 08 · MALLETERIE</span>
+            <span class="text-xs font-serif-couture font-normal text-stone-900 block truncate">La Malle d'Or</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       Full-Screen Inspection Curtain Drawer (Detailed Tactile Couture Specs)
+       ==================================================================== -->
+  <div id="curtain-drawer" class="curtain-backdrop">
+    <div class="curtain-panel text-left">
+      <!-- Close Button -->
+      <button id="close-curtain" class="absolute top-6 right-6 text-stone-400 hover:text-stone-900 p-2 cursor-pointer">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="space-y-6">
+        <div>
+          <span class="text-[10px] font-whisper text-amber-700 tracking-[0.3em] block mb-1">
+            HAUTE COUTURE ARCHIVE
+          </span>
+          <h3 id="curtain-title" class="font-serif-couture text-3xl font-light text-stone-900 tracking-tight mb-1">
+            L'Écharpe Magique
+          </h3>
+          <p id="curtain-subtitle" class="text-xs font-mono-meta text-stone-500">
+            Subtitle Description
+          </p>
+        </div>
+
+        <!-- Lookbook Multi-Piece Switcher Pills (카테고리별 컬렉션 확장 룩북) -->
+        <div id="curtain-look-tabs" class="flex flex-wrap items-center gap-2 pt-1 pb-1"></div>
+
+        <!-- High-res Visual Frame with Interactive Weave Loupe (Full Silhouette & Zero Cropping) -->
+        <div class="loupe-container w-full h-[500px] max-h-[60vh] rounded-2xl overflow-hidden bg-[#fafaf9] border border-stone-200/80 shadow-sm relative flex items-center justify-center p-2.5">
+          <img id="curtain-img" src="assets/images/silk-scarf-pattern.jpg" alt="Couture Asset Zoom" class="max-w-full max-h-full w-auto h-full object-contain object-top rounded-xl shadow-sm transition-all duration-300">
+          <div class="loupe-glass"></div>
+        </div>
+
+        <div>
+          <h4 class="text-[10px] font-whisper text-stone-500 tracking-[0.25em] uppercase mb-2">
+            직조 및 조형 철학 (Savoir-Faire)
+          </h4>
+          <p id="curtain-desc" class="text-stone-700 text-xs sm:text-sm leading-relaxed font-light">
+            Description text goes here.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-[10px] font-whisper text-stone-500 tracking-[0.25em] uppercase mb-2">
+            사양 및 마감 명세 (Specifications)
+          </h4>
+          <div id="curtain-specs-wrap" class="space-y-1"></div>
+        </div>
+
+        <div class="pt-4 flex flex-col gap-2.5">
+          <button id="curtain-reserve-btn" class="w-full py-4 rounded-full bg-stone-900 text-white font-whisper text-xs tracking-[0.2em] flex items-center justify-center gap-2 hover:bg-amber-800 transition-colors shadow-md cursor-pointer">
+            <span>프라이빗 살롱 피팅 예약 신청</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+          <button id="curtain-silk-lab-btn" class="w-full py-3 rounded-full border border-stone-300 hover:border-amber-600 text-stone-700 hover:text-amber-800 font-whisper text-[10px] tracking-[0.18em] flex items-center justify-center gap-2 bg-stone-50/60 transition-colors hidden cursor-pointer">
+            <i data-lucide="wind" class="w-3.5 h-3.5 text-amber-600"></i>
+            <span>실크 물리 아틀리에 (Silk Fabric Lab) 열기</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       In-Site Luxury Salon Booking Modal (No External Mailto / In-Site Concierge)
+       ==================================================================== -->
+  <div id="salon-booking-modal" class="booking-backdrop">
+    <div class="booking-dialog">
+      <!-- Close Button -->
+      <button id="close-booking-modal" class="booking-close-btn" aria-label="닫기">
+        <i data-lucide="x" class="w-5 h-5 text-stone-600"></i>
+      </button>
+
+      <!-- View 1: Reservation Form -->
+      <div id="booking-form-view" class="space-y-6">
+        <!-- Brand Header -->
+        <div class="text-center space-y-1.5 border-b border-stone-200/70 pb-5">
+          <div class="inline-flex w-10 h-10 rounded-full bg-stone-900 border border-amber-300/40 p-1.5 items-center justify-center shadow-md mb-2">
+            <img src="assets/images/brand-emblem.svg" alt="Brand Seal" class="w-full h-full object-contain filter invert">
+          </div>
+          <span class="text-[9px] font-whisper text-amber-700 tracking-[0.35em] block">
+            HAUTE COUTURE PRIVATE APPOINTMENT
+          </span>
+          <h3 class="font-serif-couture text-2xl sm:text-3xl font-light text-stone-900 tracking-tight">
+            Réserver un Salon Privé
+          </h3>
+          <p class="text-xs font-sans-airy text-stone-500 max-w-md mx-auto">
+            파리 방돔 본점 및 전 세계 오뜨 꾸뛰르 살롱에서 귀하만을 위한 1:1 프라이빗 비스포크 피팅 세션을 진행합니다.
+          </p>
+        </div>
+
+        <form id="salon-booking-form" class="space-y-4">
+          <!-- Salon City Selector -->
+          <div class="space-y-1.5">
+            <label class="booking-label">살롱 지점 선택 (Salon Privé)</label>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <label class="salon-radio-chip">
+                <input type="radio" name="salon_location" value="Paris Atelier Céleste" checked class="peer sr-only">
+                <span class="chip-box">
+                  <span class="font-serif-couture text-sm font-medium text-stone-900">Paris</span>
+                  <span class="text-[9px] text-stone-500 block">Atelier Céleste</span>
+                </span>
+              </label>
+              <label class="salon-radio-chip">
+                <input type="radio" name="salon_location" value="Seoul Salon Cheongdam" class="peer sr-only">
+                <span class="chip-box">
+                  <span class="font-serif-couture text-sm font-medium text-stone-900">Seoul</span>
+                  <span class="text-[9px] text-stone-500 block">Salon Cheongdam</span>
+                </span>
+              </label>
+              <label class="salon-radio-chip">
+                <input type="radio" name="salon_location" value="New York Salon Madison" class="peer sr-only">
+                <span class="chip-box">
+                  <span class="font-serif-couture text-sm font-medium text-stone-900">New York</span>
+                  <span class="text-[9px] text-stone-500 block">Madison Ave</span>
+                </span>
+              </label>
+              <label class="salon-radio-chip">
+                <input type="radio" name="salon_location" value="Tokyo Salon Ginza" class="peer sr-only">
+                <span class="chip-box">
+                  <span class="font-serif-couture text-sm font-medium text-stone-900">Tokyo</span>
+                  <span class="text-[9px] text-stone-500 block">Salon Ginza</span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Target Piece -->
+          <div class="space-y-1.5">
+            <label for="booking-piece" class="booking-label">피팅 & 감상 희망 아카이브 (Collection)</label>
+            <select id="booking-piece" class="booking-select">
+              <option value="N° 00 — LE BRACELET ASTRAL D'OR (18K 플루티드 골드 & 다이아몬드 뱅글)">N° 00 — LE BRACELET ASTRAL D'OR (18K 플루티드 골드 & 다이아몬드 뱅글)</option>
+              <option value="N° 01 — L'ÉCHARPE MAGIQUE (에르메스급 실크 트윌 카레)">N° 01 — L'ÉCHARPE MAGIQUE (에르메스급 실크 트윌 카레)</option>
+              <option value="N° 02 — LE MANTEAU RUNWAY (아이보리 캐시미어 코트 & 실크 드레스)">N° 02 — LE MANTEAU RUNWAY (아이보리 캐시미어 코트 & 실크 드레스)</option>
+              <option value="N° 03 — LE SAC SELLERIE (토뤼옹 카프스킨 새들 스티치 백)">N° 03 — LE SAC SELLERIE (토뤼옹 카프스킨 새들 스티치 백)</option>
+              <option value="N° 04 — LA HAUTE PARURE (키네틱 플래티넘 에메랄드 초커 & 링)">N° 04 — LA HAUTE PARURE (키네틱 플래티넘 에메랄드 초커 & 링)</option>
+              <option value="N° 05 — L'OPTIQUE SOLAIRE (티타늄 앰버 그라디언트 아이웨어)">N° 05 — L'OPTIQUE SOLAIRE (티타늄 앰버 그라디언트 아이웨어)</option>
+              <option value="N° 06 — LE FLACON D'OR (크리스탈 퍼퓸 오 드 퍼퓸 100ml)">N° 06 — LE FLACON D'OR (크리스탈 퍼퓸 오 드 퍼퓸 100ml)</option>
+              <option value="N° 07 — LE SOULIER DE VERRE (크리스탈 & 리퀴드 크롬 스틸레토)">N° 07 — LE SOULIER DE VERRE (크리스탈 & 리퀴드 크롬 스틸레토)</option>
+              <option value="N° 08 — LA MALLE D'OR (솔리드 황동 비스포크 주얼리 트렁크)">N° 08 — LA MALLE D'OR (솔리드 황동 비스포크 주얼리 트렁크)</option>
+            </select>
+          </div>
+
+          <!-- Date & Time Row -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="space-y-1.5">
+              <label for="booking-date" class="booking-label">희망 일자 (Date)</label>
+              <input type="date" id="booking-date" required class="booking-input">
+            </div>
+            <div class="space-y-1.5">
+              <label for="booking-time" class="booking-label">희망 시간 (Créneau Horaire)</label>
+              <select id="booking-time" class="booking-select">
+                <option value="11:00 AM — Salon Matinal">11:00 AM (오전 세션)</option>
+                <option value="14:00 PM — Après-midi Couture" selected>14:00 PM (오후 꾸뛰르)</option>
+                <option value="16:30 PM — Crépuscule Céleste">16:30 PM (황혼 천체 관측 세션)</option>
+                <option value="19:00 PM — Soirée Privée VIP">19:00 PM (VIP 프라이빗 이브닝)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Name & Phone -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="space-y-1.5">
+              <label for="booking-name" class="booking-label">고객 성함 (Nom du Client)</label>
+              <input type="text" id="booking-name" required placeholder="홍길동 (또는 영문 성함)" class="booking-input">
+            </div>
+            <div class="space-y-1.5">
+              <label for="booking-phone" class="booking-label">전화번호 / 핫라인 (Contact VIP)</label>
+              <input type="tel" id="booking-phone" required placeholder="010-0000-0000" class="booking-input">
+            </div>
+          </div>
+
+          <!-- Bespoke Options -->
+          <div class="space-y-1.5">
+            <label class="booking-label">살롱 프라이빗 서비스 옵션 (선택)</label>
+            <div class="flex flex-wrap gap-2 text-xs">
+              <label class="bespoke-tag">
+                <input type="checkbox" name="bespoke_service" value="Dom Pérignon Pairing" checked>
+                <span>돔 페리뇽 샴페인 페어링</span>
+              </label>
+              <label class="bespoke-tag">
+                <input type="checkbox" name="bespoke_service" value="3D Body Scanning">
+                <span>신체 3D 스캐닝 비스포크 테일러링</span>
+              </label>
+              <label class="bespoke-tag">
+                <input type="checkbox" name="bespoke_service" value="Private Valet">
+                <span>프라이빗 발렛 및 쇼퍼 서비스</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="pt-3">
+            <button type="submit" class="w-full py-4 rounded-full bg-gradient-to-r from-stone-900 to-stone-800 text-white font-whisper text-xs tracking-[0.25em] flex items-center justify-center gap-2 hover:from-amber-800 hover:to-amber-900 transition-all shadow-lg hover:shadow-xl cursor-pointer">
+              <span>비스포크 예약 세션 확정 (Confirmer)</span>
+              <i data-lucide="sparkles" class="w-4 h-4 text-amber-300"></i>
+            </button>
+            <p class="text-[10px] text-stone-600 text-center mt-2 font-mono-meta">
+              * 예약 세션은 전담 시니어 컨시어지의 사전 확인 후 최종 확정됩니다.
+            </p>
+          </div>
+        </form>
+      </div>
+
+      <!-- View 2: Royal Wax Seal Confirmation State -->
+      <div id="booking-success-view" class="hidden text-center space-y-6 py-4">
+        <!-- 24K Animated Golden Wax Seal -->
+        <div class="wax-seal-wrapper">
+          <div class="wax-seal-stamp">
+            <img src="assets/images/brand-emblem.svg" alt="CAELUM Paris Royal Wax Seal" class="wax-seal-emblem">
+          </div>
+          <div class="wax-seal-ripple"></div>
+        </div>
+
+        <div class="space-y-2">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200/80 text-amber-900 text-[10px] font-mono-meta tracking-wider">
+            <span>RÉSERVATION CONFIRMÉE</span>
+            <span>·</span>
+            <span id="booking-confirm-code">CLM-2026-CELESTE-892</span>
+          </div>
+          <h3 class="font-serif-couture text-3xl font-light text-stone-900 tracking-tight">
+            살롱 예약이 확정되었습니다
+          </h3>
+          <p class="text-xs text-stone-600 max-w-md mx-auto leading-relaxed">
+            <strong id="confirm-client-name" class="font-medium text-stone-900">귀하</strong>의 프라이빗 피팅 세션이 접수되었습니다.<br>
+            <span id="confirm-salon-loc" class="text-amber-800 font-medium">Paris Atelier Céleste</span> 전담 시니어 컨시어지가 2시간 이내에 전담 핫라인(<span id="confirm-client-phone" class="font-mono-meta">010-XXXX-XXXX</span>)으로 공식 VIP 초청장과 세션 가이드를 전달 드립니다.
+          </p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-stone-50 border border-stone-200 text-left max-w-md mx-auto text-xs space-y-2">
+          <div class="flex justify-between border-b border-stone-200/60 pb-1.5">
+            <span class="text-stone-500 font-mono-meta">일시:</span>
+            <span id="confirm-slot" class="font-medium text-stone-900">2026. 11. 15 · 14:00 PM</span>
+          </div>
+          <div class="flex justify-between border-b border-stone-200/60 pb-1.5">
+            <span class="text-stone-500 font-mono-meta">요청 아카이브:</span>
+            <span id="confirm-piece" class="font-medium text-stone-900 truncate max-w-[220px]">N° 00 — LE BRACELET ASTRAL D'OR</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-stone-500 font-mono-meta">전담 컨시어지:</span>
+            <span class="font-medium text-amber-800">Élise de Saint-Honoré (Maître)</span>
+          </div>
+        </div>
+
+        <div>
+          <button id="booking-done-btn" class="px-8 py-3 rounded-full bg-stone-900 text-white font-whisper text-xs tracking-[0.2em] hover:bg-stone-800 transition-colors cursor-pointer shadow-sm">
+            확인 완료 및 런웨이로 복귀
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       Silk Physics Atelier Modal (대화형 패브릭 시뮬레이터 랩)
+       ==================================================================== -->
+  <div id="silk-atelier-modal" class="silk-atelier-backdrop">
+    <div class="silk-atelier-dialog">
+      <!-- Close Button -->
+      <button id="close-silk-modal" class="booking-close-btn" aria-label="닫기">
+        <i data-lucide="x" class="w-5 h-5 text-stone-600"></i>
+      </button>
+
+      <!-- Atelier Header -->
+      <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-stone-200/80">
+        <div>
+          <span class="text-[9px] font-whisper text-amber-700 tracking-[0.3em] block">
+            ATELIER DES FLUIDES TEXTILES
+          </span>
+          <h3 class="font-serif-couture text-2xl font-light text-stone-900 tracking-tight">
+            Silk Physics Atelier — 실크 유체 물리 랩
+          </h3>
+          <p class="text-xs text-stone-500 font-light">
+            14모메 멀버리 실크 트윌의 공기 역학적 너울거림과 직조 탄성을 실시간으로 시뮬레이션합니다.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] font-mono-meta text-stone-500 uppercase">Teinte de Soie:</span>
+          <button class="atelier-color-chip active bg-[#d4af37]" data-color="#ffffff" data-sheen="#f6e6c4" title="Émeraude & Or"></button>
+          <button class="atelier-color-chip bg-[#1e293b]" data-color="#cbd5e1" data-sheen="#38bdf8" title="Bleu Nuit"></button>
+          <button class="atelier-color-chip bg-[#f472b6]" data-color="#fed7aa" data-sheen="#f472b6" title="Rose Poudré"></button>
+          <button class="atelier-color-chip bg-[#f8fafc]" data-color="#ffffff" data-sheen="#ffffff" title="Blanc Absolu"></button>
+        </div>
+      </div>
+
+      <!-- Interactive 3D Cloth Canvas -->
+      <div class="relative w-full h-[380px] sm:h-[440px] rounded-2xl overflow-hidden bg-[#fbfbfa] border border-stone-200 shadow-inner mt-4 flex items-center justify-center">
+        <canvas id="silk-atelier-canvas" class="w-full h-full block cursor-grab active:cursor-grabbing"></canvas>
+        <div class="absolute bottom-4 left-4 bg-white/85 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-stone-200 text-[10px] font-whisper tracking-wider text-stone-600 shadow-sm pointer-events-none flex items-center gap-2">
+          <i data-lucide="hand" class="w-3.5 h-3.5 text-amber-600"></i>
+          <span>캔버스를 마우스로 드래그하면 유체 파동 리플이 발생합니다</span>
+        </div>
+      </div>
+
+      <!-- Real-time Physics Sliders -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 text-left">
+        <div class="p-3 rounded-xl bg-stone-50 border border-stone-200/80 space-y-1.5">
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-whisper text-[9px] text-stone-600 tracking-wider">바람 세기 (Vent / Wind)</span>
+            <span id="val-wind" class="font-mono-meta font-medium text-stone-900">1.8 m/s</span>
+          </div>
+          <input type="range" id="slider-wind" min="0.5" max="4.5" step="0.1" value="1.8" class="w-full accent-stone-900 cursor-pointer">
+          <p class="text-[9px] text-stone-600">미풍에서 런웨이 돌풍까지 공기 유속을 조절합니다.</p>
+        </div>
+
+        <div class="p-3 rounded-xl bg-stone-50 border border-stone-200/80 space-y-1.5">
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-whisper text-[9px] text-stone-600 tracking-wider">직조 탄성 (Tension de Soie)</span>
+            <span id="val-tension" class="font-mono-meta font-medium text-stone-900">0.24 λ</span>
+          </div>
+          <input type="range" id="slider-tension" min="0.08" max="0.5" step="0.02" value="0.24" class="w-full accent-stone-900 cursor-pointer">
+          <p class="text-[9px] text-stone-600">멀버리 실크 원사의 팽팽함과 유연성을 설정합니다.</p>
+        </div>
+
+        <div class="p-3 rounded-xl bg-stone-50 border border-stone-200/80 space-y-1.5">
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-whisper text-[9px] text-stone-600 tracking-wider">파동 리플 (Vagues Ripple)</span>
+            <span id="val-wave" class="font-mono-meta font-medium text-stone-900">1.4 A</span>
+          </div>
+          <input type="range" id="slider-wave" min="0.4" max="3.0" step="0.1" value="1.4" class="w-full accent-stone-900 cursor-pointer">
+          <p class="text-[9px] text-stone-600">마법의 양탄자처럼 펄럭이는 진폭을 증폭합니다.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Lucide Initialization -->
+  <script>
+    lucide.createIcons();
+  </script>
+
+  <!-- Modular 3D Scripts -->
+  <script src="js/gallery-3d.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>
