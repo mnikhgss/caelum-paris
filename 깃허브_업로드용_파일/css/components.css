@@ -1,0 +1,871 @@
+/* ==========================================================================
+   MAISON DE LA SOIE — Components & Overlay Systems
+   Whisper Header, 3D Orbit Story Overlay, Timeline, Inspection Curtain
+   ========================================================================== */
+
+/* 1. Whisper Navigation Header */
+.salon-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  z-index: 50;
+  background: rgba(251, 251, 250, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-hairline);
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.salon-nav-link {
+  font-family: var(--font-sans-airy);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  color: var(--text-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.25s ease;
+  position: relative;
+  padding: 4px 0;
+}
+
+.salon-nav-link:hover {
+  color: var(--text-noir);
+}
+
+.salon-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent-gold);
+  transition: width 0.3s ease;
+}
+
+.salon-nav-link:hover::after {
+  width: 100%;
+}
+
+/* 2. Floating Story Overlay in 3D Space (Fixed Lower Center/Left) */
+.story-overlay-container {
+  position: fixed;
+  bottom: 48px;
+  left: 48px;
+  z-index: 40;
+  max-width: 580px;
+  pointer-events: none;
+}
+
+.story-card {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--border-hairline);
+  border-radius: 24px;
+  padding: 34px 38px;
+  box-shadow: var(--shadow-studio-float);
+  pointer-events: auto;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.inspect-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 20px;
+  border-radius: 9999px;
+  background: var(--text-noir);
+  color: #ffffff;
+  font-family: var(--font-sans-airy);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.inspect-pill-btn:hover {
+  transform: translateY(-2px);
+  background: var(--accent-gold);
+}
+
+.pattern-edition-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #181a20 0%, #0d0f14 100%);
+  color: #e5c478;
+  border: 1px solid rgba(229, 196, 120, 0.45);
+  font-family: var(--font-sans-airy);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pattern-edition-pill-btn:hover {
+  transform: translateY(-2px);
+  border-color: #e5c478;
+  color: #fff6de;
+  box-shadow: 0 6px 20px rgba(229, 196, 120, 0.25);
+}
+
+/* Colorway Switcher in Story Card */
+.colorway-switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.colorway-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.colorway-dot:hover {
+  transform: scale(1.3);
+}
+
+.colorway-dot.active {
+  transform: scale(1.35);
+  box-shadow: 0 0 0 1.5px var(--text-noir);
+}
+
+/* 360-degree Drag Hint Pill */
+.drag-hint-badge {
+  position: fixed;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-hairline);
+  font-family: var(--font-sans-airy);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  pointer-events: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  transition: opacity 0.5s ease;
+}
+
+/* Runway Multi-Angle Catwalk Switcher Pill */
+.runway-angle-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(243, 244, 246, 0.92);
+  padding: 3px;
+  border-radius: 9999px;
+  border: 1px solid var(--border-hairline);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.runway-angle-btn {
+  padding: 5px 12px;
+  border-radius: 9999px;
+  font-family: var(--font-sans-airy);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.runway-angle-btn:hover {
+  color: var(--text-noir);
+}
+
+.runway-angle-btn.active {
+  background: #ffffff;
+  color: var(--text-noir);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Macro Weave Loupe Zoom in Curtain */
+.loupe-container {
+  position: relative;
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+/* Lookbook Multi-Piece Switcher Tab in Curtain */
+.curtain-look-tab {
+  padding: 6px 14px;
+  border-radius: 9999px;
+  border: 1px solid var(--border-hairline);
+  background: rgba(245, 245, 247, 0.85);
+  font-family: var(--font-sans-airy);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.curtain-look-tab:hover {
+  border-color: var(--accent-gold);
+  color: var(--text-noir);
+}
+
+.curtain-look-tab.active {
+  background: var(--text-noir);
+  color: #ffffff;
+  border-color: var(--text-noir);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.loupe-glass {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), inset 0 0 15px rgba(0,0,0,0.15);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.2s ease;
+  background-repeat: no-repeat;
+  z-index: 10;
+}
+
+/* 3. Orbit Timeline Indicator (Right Side) */
+.orbit-timeline {
+  position: fixed;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: var(--border-hairline);
+  z-index: 1;
+}
+
+.timeline-step {
+  position: relative;
+  z-index: 2;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  border: 2px solid #ffffff;
+  transition: all 0.35s ease;
+  cursor: pointer;
+}
+
+.timeline-step.active {
+  background: var(--text-noir);
+  transform: scale(1.4);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 4. Inspection Curtain Drawer */
+.curtain-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(251, 251, 250, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.curtain-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.curtain-panel {
+  width: 100%;
+  max-width: 640px;
+  height: 100vh;
+  background: #ffffff;
+  border-left: 1px solid var(--border-hairline);
+  overflow-y: auto;
+  padding: 60px 48px;
+  position: relative;
+  transform: translateX(100%);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: -20px 0 80px rgba(0, 0, 0, 0.08);
+}
+
+.curtain-backdrop.open .curtain-panel {
+  transform: translateX(0);
+}
+
+/* Spec Rows in Curtain */
+.curtain-spec-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border-hairline);
+  font-size: 0.85rem;
+}
+
+.curtain-spec-label {
+  color: var(--text-muted);
+  font-family: var(--font-mono-tech);
+  font-size: 0.75rem;
+}
+
+.curtain-spec-val {
+  color: var(--text-noir);
+  font-weight: 500;
+}
+
+/* Sound Button */
+.sound-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--border-hairline);
+  font-family: var(--font-sans-airy);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sound-toggle-btn:hover {
+  color: var(--text-noir);
+  border-color: var(--border-hairline-hover);
+}
+
+/* 7. Royal Finale Climax Overlay (스크롤 마지막 왕실 피날레 엠블럼 & 파노라마) */
+.royal-finale-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 45;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border-top: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 -25px 70px rgba(212, 175, 55, 0.12), 0 -10px 30px rgba(0, 0, 0, 0.04);
+  padding: 32px 40px 40px 40px;
+  transform: translateY(105%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+}
+
+.royal-finale-container.visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.royal-crest-aura {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.royal-crest-aura::before {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, transparent 70%);
+  animation: royal-pulse 3s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes royal-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.15); opacity: 0.95; }
+}
+
+/* Horizontal Panorama Shelf for All Products */
+.panorama-strip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 12px 4px 16px 4px;
+  scrollbar-width: none;
+}
+.panorama-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.panorama-card {
+  flex-shrink: 0;
+  width: 140px;
+  background: #ffffff;
+  border: 1px solid var(--border-hairline);
+  border-radius: 14px;
+  overflow: hidden;
+  padding: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.panorama-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-gold);
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+}
+
+.panorama-card-img {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #f9f9fb;
+}
+
+.btn-royal-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #111215 0%, #23252a 100%);
+  color: #ffffff;
+  font-family: var(--font-sans-airy);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-royal-gold:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #d4af37 0%, #b89128 100%);
+  color: #111215;
+  border-color: #d4af37;
+  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
+}
+
+/* 8. Silk Physics Atelier Pill Button */
+.silk-lab-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  background: rgba(254, 243, 199, 0.65);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  color: #854d0e;
+  font-family: var(--font-sans-airy);
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.12);
+}
+
+.silk-lab-pill-btn:hover {
+  background: rgba(254, 243, 199, 0.95);
+  border-color: var(--accent-gold);
+  color: #713f12;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25);
+}
+
+/* 9. Luxury Salon Booking Modal System */
+.booking-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  background: rgba(18, 18, 20, 0.55);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.booking-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.booking-dialog {
+  background: #ffffff;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 28px;
+  max-width: 620px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 44px 38px;
+  position: relative;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.25), 0 0 40px rgba(212, 175, 55, 0.12);
+  transform: translateY(24px) scale(0.98);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.booking-backdrop.open .booking-dialog {
+  transform: translateY(0) scale(1);
+}
+
+.booking-close-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border-hairline);
+  background: rgba(245, 245, 247, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.booking-close-btn:hover {
+  background: #ffffff;
+  border-color: var(--text-noir);
+  transform: rotate(90deg);
+}
+
+.booking-label {
+  display: block;
+  font-family: var(--font-mono-tech);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.salon-radio-chip {
+  cursor: pointer;
+  display: block;
+}
+
+.salon-radio-chip input:checked + .chip-box {
+  background: #ffffff;
+  border-color: var(--accent-gold);
+  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.25), 0 0 0 1.5px var(--accent-gold);
+}
+
+.chip-box {
+  display: block;
+  padding: 10px 8px;
+  text-align: center;
+  border-radius: 12px;
+  border: 1px solid var(--border-hairline);
+  background: #fbfbfa;
+  transition: all 0.2s ease;
+}
+
+.chip-box:hover {
+  border-color: var(--accent-gold);
+}
+
+.booking-select, .booking-input {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border-hairline);
+  background: #fbfbfa;
+  font-size: 0.82rem;
+  color: var(--text-noir);
+  font-family: var(--font-sans-airy);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+.booking-select:focus, .booking-input:focus {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+  background: #ffffff;
+}
+
+.bespoke-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: #f4f4f5;
+  border: 1px solid var(--border-hairline);
+  color: var(--text-noir);
+  cursor: pointer;
+  font-size: 0.72rem;
+  transition: all 0.2s ease;
+}
+
+.bespoke-tag:has(input:checked) {
+  background: #fef3c7;
+  border-color: var(--accent-gold);
+  color: #78350f;
+  font-weight: 500;
+}
+
+/* 10. Golden Wax Seal Stamp Animation */
+.wax-seal-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.wax-seal-stamp {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffd768 0%, #d4af37 55%, #996515 100%);
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.45), inset 0 2px 6px rgba(255, 255, 255, 0.6), inset 0 -3px 6px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  position: relative;
+  z-index: 2;
+  animation: wax-seal-pop 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.wax-seal-emblem {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4)) invert(1);
+}
+
+.wax-seal-ripple {
+  position: absolute;
+  inset: -16px;
+  border-radius: 50%;
+  border: 2px solid rgba(212, 175, 55, 0.5);
+  animation: wax-seal-pulse 2.2s infinite ease-out;
+  pointer-events: none;
+}
+
+@keyframes wax-seal-pop {
+  0% { transform: scale(0.3) rotate(-30deg); opacity: 0; }
+  70% { transform: scale(1.1) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes wax-seal-pulse {
+  0% { transform: scale(0.85); opacity: 0.8; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* 11. Silk Physics Atelier Modal System */
+.silk-atelier-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  background: rgba(18, 18, 20, 0.6);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.silk-atelier-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.silk-atelier-dialog {
+  background: #ffffff;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 28px;
+  max-width: 820px;
+  width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  padding: 36px 36px 32px 36px;
+  position: relative;
+  box-shadow: 0 35px 100px rgba(0, 0, 0, 0.3), 0 0 50px rgba(212, 175, 55, 0.15);
+  transform: translateY(24px) scale(0.98);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.silk-atelier-backdrop.open .silk-atelier-dialog {
+  transform: translateY(0) scale(1);
+}
+
+.atelier-color-chip {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.atelier-color-chip:hover {
+  transform: scale(1.25);
+}
+
+.atelier-color-chip.active {
+  transform: scale(1.35);
+  box-shadow: 0 0 0 2px var(--text-noir);
+}
+
+
+/* ==========================================================================
+   Mobile & Responsive Viewport Optimizations (iOS / Android / Tablets)
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* 1. Header & Navigation */
+  .salon-header {
+    height: 58px;
+  }
+  
+  /* 2. Floating Story Overlay */
+  .story-overlay-container {
+    bottom: 14px;
+    left: 12px;
+    right: 12px;
+    max-width: calc(100% - 24px);
+  }
+  .story-card {
+    padding: 18px 20px 20px 20px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  }
+  #story-title {
+    font-size: 1.25rem !important;
+    line-height: 1.3 !important;
+  }
+  #story-desc {
+    font-size: 0.75rem !important;
+    line-height: 1.5 !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .runway-angle-btn {
+    padding: 4px 10px;
+    font-size: 0.58rem;
+  }
+  .inspect-pill-btn {
+    padding: 8px 16px;
+    font-size: 0.65rem;
+  }
+  .pattern-edition-pill-btn {
+    padding: 8px 14px;
+    font-size: 0.62rem;
+  }
+
+  /* 3. Drag Hint Pill */
+  .drag-hint-badge {
+    top: 70px;
+    font-size: 0.65rem;
+    padding: 4px 12px;
+    max-width: 90vw;
+  }
+
+  /* 4. Inspection Curtain Drawer */
+  .curtain-panel {
+    max-width: 100%;
+    padding: 50px 18px 40px 18px;
+  }
+  .loupe-container {
+    height: 320px !important;
+    max-height: 42vh !important;
+  }
+
+  /* 5. Booking Modal */
+  .booking-backdrop {
+    padding: 12px;
+  }
+  .booking-dialog {
+    padding: 30px 18px 24px 18px;
+    border-radius: 22px;
+    max-height: 94vh;
+  }
+  .salon-radio-chip .chip-box {
+    padding: 8px 6px;
+  }
+
+  /* 6. Royal Finale Climax */
+  .royal-finale-container {
+    padding: 20px 14px 28px 14px;
+    max-height: 88vh;
+    overflow-y: auto;
+  }
+  .panorama-card {
+    padding: 6px;
+  }
+  .panorama-card-img {
+    height: 70px;
+  }
+
+  /* 7. Silk Atelier Modal */
+  .silk-atelier-dialog {
+    padding: 26px 16px 20px 16px;
+    border-radius: 22px;
+    max-height: 94vh;
+  }
+  #atelier-cloth-canvas {
+    height: 280px !important;
+  }
+}

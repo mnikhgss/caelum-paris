@@ -1,0 +1,89 @@
+/* ==========================================================================
+   GLOBAL STYLES — WHITE MINIMALIST KINETIC SALON
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Plus+Jakarta+Sans:wght@200;300;400;500;600&family=Space+Grotesk:wght@300;400;500&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-sans-airy);
+  background-color: var(--bg-gallery);
+  color: var(--text-noir);
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+body {
+  position: relative;
+  background-color: var(--bg-gallery);
+  color: var(--text-noir);
+  line-height: 1.7;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* Subtle Alabaster Film Grain */
+.film-grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.022;
+  pointer-events: none;
+  z-index: 99;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Fullscreen Fixed 3D Spatial Canvas */
+#gallery-3d-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  display: block;
+}
+
+/* Virtual Scroll Runway (drives the 3D camera trajectory through space) */
+#virtual-scroll-track {
+  position: relative;
+  width: 100%;
+  height: 980vh; /* Extended luxurious 8-stage runway flight with generous Jewelry Trunk dwell plateau */
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Whisper Luxury Typography */
+.font-whisper {
+  font-family: var(--font-sans-airy);
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+}
+
+.font-serif-couture {
+  font-family: var(--font-serif-luxury);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+
+.font-serif-italic {
+  font-family: var(--font-serif-luxury);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.font-mono-meta {
+  font-family: var(--font-mono-tech);
+  letter-spacing: -0.02em;
+}

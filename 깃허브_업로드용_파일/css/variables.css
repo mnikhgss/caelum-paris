@@ -1,0 +1,38 @@
+/* ==========================================================================
+   MAISON DE LA SOIE — The Silk Solar System & White Kinetic Salon
+   Design Tokens (Pure Minimalist White Gallery & Whisper Typography)
+   ========================================================================== */
+
+:root {
+  /* White Minimalist Gallery Palette */
+  --bg-gallery: #fbfbfa;
+  --bg-card-white: rgba(255, 255, 255, 0.88);
+  --bg-pure: #ffffff;
+  
+  /* Textures & Contrast */
+  --text-noir: #111215;
+  --text-charcoal: #374151;
+  --text-muted: #6b7280;
+  --text-subtle: #9ca3af;
+
+  /* Luxury Accents */
+  --accent-gold: #c5a059;
+  --accent-gold-soft: #d4af37;
+  --accent-emerald: #059669;
+
+  /* Hairline Borders */
+  --border-hairline: rgba(0, 0, 0, 0.08);
+  --border-hairline-hover: rgba(0, 0, 0, 0.2);
+
+  /* Soft Ambient Studio Shadows (Soft diffused studio light) */
+  --shadow-studio-float: 0 30px 80px -20px rgba(0, 0, 0, 0.08), 0 12px 30px -10px rgba(0, 0, 0, 0.04);
+  --shadow-studio-hover: 0 40px 100px -20px rgba(0, 0, 0, 0.14), 0 16px 36px -10px rgba(0, 0, 0, 0.06);
+
+  /* Typography */
+  --font-serif-luxury: 'Cormorant Garamond', Georgia, serif;
+  --font-sans-airy: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --font-mono-tech: 'Space Grotesk', monospace;
+
+  /* Transitions */
+  --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
